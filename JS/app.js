@@ -40,7 +40,6 @@ const fetchApi = url => {
 
 }
 
-let arr = [];
 
 const makeCardFunct = data => {
 
@@ -87,8 +86,12 @@ const makeCardFunct = data => {
 						<h6 id="buyNow-btn">Buy Now <i class="fa-solid fa-bag-shopping fs-4"></i></h6>
 					</div>
 					<div>
-						<i class="fa-solid fa-cart-arrow-down mx-2 fs-4 m-0 p-0 cartBtn" style="cursor: pointer;"></i>
-						<i class="fa-regular fa-heart mx-2 fs-4 m-0 p-0 heartBtn" style="cursor: pointer;"></i>
+					<span class="cart-Btn">
+						<i class="fa-solid fa-cart-arrow-down mx-2 fs-4 m-0 p-0" style="cursor: pointer;"></i>
+					</span>
+					<span class="heartBtn">
+						<i class="fa-regular fa-heart mx-2 fs-4 m-0 p-0" style="cursor: pointer;"></i>
+					</span>
 					</div>
 				</div>
 			</div>
@@ -98,10 +101,25 @@ const makeCardFunct = data => {
 
 		prntCard.appendChild(makeDivFrCard);
 
+		setStrg(makeDivFrCard)
+
 		
 	}
 	
-	
+
+};
+
+
+
+
+const setStrg = data => {
+
+	const allCartBtns = document.getElementsByClassName('cart-Btn');
+	for(const cartButton of allCartBtns){
+		cartButton.addEventListener('click', function(){
+			console.log(this)
+		})
+	}
 
 }
 
