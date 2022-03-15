@@ -78,9 +78,9 @@ const makeCardFunct = data => {
 			<div>
 				<div class="d-flex flex-column align-items-center">
 					<h6 class="m-0" style="white-space: nowrap;">${elArr.name.length > 25 ? elArr.name.slice(0, 25) + '...' : elArr.name}</h6>
-					<p class="m-0 fw-bolder">$<span>${elArr.price}</span></p>
+					<p class="m-0 fw-bolder">$<span>${elArr.price ? elArr.price : 'not found'}</span></p>
 				</div>
-				<div class="d-flex bg-dark text-white justify-content-between align-content-center py-1">
+				<div class="d-flex bg-dark text-white justify-content-between align-items-center py-1">
 					<div>
 						<h6 id="buyNow-btn">Buy Now <i class="fa-solid fa-bag-shopping fs-4"></i></h6>
 					</div>
@@ -177,6 +177,9 @@ const makeCart = () => {
 	const subTotal = document.getElementById('sub-total');
 	offcanvasBody.innerHTML = '';
 
+	const itemQuantity = document.getElementById('item-quantity');
+	const totalCost = document.getElementById('total-cost');
+
 	const getDataStrg = sessionStorage.getItem('shoping-cart');
 	const getDataStrgPrse = JSON.parse(getDataStrg);
 
@@ -209,8 +212,13 @@ const makeCart = () => {
 
 	}
 
+	
 	const subTotalArrRed = subTotalArr.reduce((a, b) => a + b, 0);
 	subTotalArr = [];
+	
+	itemQuantity.innerText = Object.keys(getDataStrgPrse).length;
+	totalCost.innerText = subTotalArrRed.toFixed(2);
+
 	subTotal.innerText = subTotalArrRed.toFixed(2);
 
 
@@ -252,3 +260,4 @@ const removeItem = data => {
 makeUrlFrSrch()
 makeUrlFrBtn()
 fetchApi()
+makeCart()
