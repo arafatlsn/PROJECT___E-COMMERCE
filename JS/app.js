@@ -28,7 +28,7 @@ const makeUrlFrBtn = () => {
 }
 
 const fetchApi = url => {
-	fetch(url || 'https://amazon-data-scraper58.p.rapidapi.com/search/desktop', {
+	fetch(url || 'https://amazon-data-scraper58.p.rapidapi.com/search/fashion', {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "amazon-data-scraper58.p.rapidapi.com",
@@ -77,7 +77,7 @@ const makeCardFunct = data => {
 			</div>
 			<div>
 				<div class="d-flex flex-column align-items-center">
-					<h6 class="m-0" style="white-space: nowrap;">${elArr.name.length > 30 ? elArr.name.slice(0, 30) + '...' : elArr.name}</h6>
+					<h6 class="m-0" style="white-space: nowrap;">${elArr.name.length > 25 ? elArr.name.slice(0, 25) + '...' : elArr.name}</h6>
 					<p class="m-0 fw-bolder">$<span>${elArr.price}</span></p>
 				</div>
 				<div class="d-flex bg-dark text-white justify-content-between align-content-center py-1">
@@ -85,7 +85,7 @@ const makeCardFunct = data => {
 						<h6 id="buyNow-btn">Buy Now <i class="fa-solid fa-bag-shopping fs-4"></i></h6>
 					</div>
 					<div>
-					<span class="cart-Btn mx-1 p-0">
+					<span class="cart-Btn mx-1 p-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
 						<i class="fa-solid fa-cart-arrow-down fs-4" style="cursor: pointer;"></i>
 					</span>
 					<span class="heartBtn ms-1 me-2 p-0">
@@ -132,7 +132,7 @@ const setStrg = data => {
 				itemObjSub = {};
 
 				itemObjSub['name'] = itemName;
-				itemObjSub['price'] = itemPrice;
+				itemObjSub['price'] = Number(itemPrice);
 				itemObjSub['image'] = itemImage;
 				itemObjSub['quantity'] = 1;
 
@@ -148,7 +148,7 @@ const setStrg = data => {
 				itemObjSub = {};
 
 				itemObjSub['name'] = itemName;
-				itemObjSub['price'] = itemPrice;
+				itemObjSub['price'] = Number(itemPrice);
 				itemObjSub['image'] = itemImage;
 				itemObjSub['quantity'] = 1;
 
@@ -160,12 +160,92 @@ const setStrg = data => {
 
 			}
 
+			makeCart()
+
 		})
 	}
 
 }
 
 
+let subTotalArr = []; 
+
+
+const makeCart = () => {
+
+	const offcanvasBody = document.getElementById('offcanvasBody');
+	const subTotal = document.getElementById('sub-total');
+	offcanvasBody.innerHTML = '';
+
+	const getDataStrg = sessionStorage.getItem('shoping-cart');
+	const getDataStrgPrse = JSON.parse(getDataStrg);
+
+	for(const elGetData in getDataStrgPrse){
+
+		const data = getDataStrgPrse[elGetData];
+
+		const makeCartItem = document.createElement('div');
+		makeCartItem.classList.add('border-bottom')
+		makeCartItem.setAttribute('id', 'make-cart-prnt');
+	
+		makeCartItem.innerHTML = `
+		
+		<div class="d-flex align-items-center" id="make-cart-prnt-chld1">
+			<p class="my-0 me-2 cross-buttons"><i class="fa-regular fa-circle-xmark"></i></p>
+			<img width="60px" height="60px" class="rounded" src=${data.image} alt="">
+		</div>
+		<div id="make-cart-prnt-chld2" class="d-flex flex-column justify-content-center">
+			<h6>${data.name.length > 25 ? data.name.slice(0, 25) + '...' : data.name}</h6>
+			<h6>$<span>${data.price}</span></h6>
+		</div>
+	
+		`;
+
+		offcanvasBody.appendChild(makeCartItem);
+
+		Object.keys(getDataStrgPrse).length === subTotalArr.length ? 'do not push, next time' :  subTotalArr.push(data.price);
+
+		removeItem(makeCartItem)
+
+	}
+
+	const subTotalArrRed = subTotalArr.reduce((a, b) => a + b, 0);
+	subTotalArr = [];
+	subTotal.innerText = subTotalArrRed.toFixed(2);
+
+
+}
+
+const removeItem = data => {
+
+	const crossButtons = document.getElementsByClassName('cross-buttons');
+	for(const crossButton of crossButtons){
+		crossButton.addEventListener('click', function(){
+
+			const removeCart = this.parentNode.parentNode.children[1].children[0].innerText;
+
+			const getDataStrg = sessionStorage.getItem('shoping-cart');
+			const getDataStrgPrse = JSON.parse(getDataStrg);
+
+			for(const objEl in getDataStrgPrse){
+				
+					if(getDataStrgPrse[objEl].name == removeCart){
+
+						delete getDataStrgPrse[objEl];
+						const getDataStrgStrngfy = JSON.stringify(getDataStrgPrse);
+						sessionStorage.setItem('shoping-cart', getDataStrgStrngfy);
+
+						makeCart()
+
+					}
+
+			}
+
+			removeCart.split(' ')
+		})
+	}
+
+}
 
 // call from global 
 
