@@ -86,11 +86,11 @@ const makeCardFunct = data => {
 						<h6 id="buyNow-btn">Buy Now <i class="fa-solid fa-bag-shopping fs-4"></i></h6>
 					</div>
 					<div>
-					<span class="cart-Btn">
-						<i class="fa-solid fa-cart-arrow-down mx-2 fs-4 m-0 p-0" style="cursor: pointer;"></i>
+					<span class="cart-Btn mx-1 p-0">
+						<i class="fa-solid fa-cart-arrow-down fs-4" style="cursor: pointer;"></i>
 					</span>
-					<span class="heartBtn">
-						<i class="fa-regular fa-heart mx-2 fs-4 m-0 p-0" style="cursor: pointer;"></i>
+					<span class="heartBtn ms-1 me-2 p-0">
+						<i class="fa-regular fa-heart fs-4" style="cursor: pointer;"></i>
 					</span>
 					</div>
 				</div>
@@ -110,14 +110,57 @@ const makeCardFunct = data => {
 };
 
 
-
-
 const setStrg = data => {
 
 	const allCartBtns = document.getElementsByClassName('cart-Btn');
 	for(const cartButton of allCartBtns){
 		cartButton.addEventListener('click', function(){
-			console.log(this)
+
+			const itemName = this.parentNode.parentNode.parentNode.children[0].children[0].innerText;
+
+			const itemPrice = this.parentNode.parentNode.parentNode.children[0].children[1].children[0].innerText;
+
+			const itemImage = this.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].children[0].src;
+			
+			const getData = sessionStorage.getItem('shoping-cart');
+			let itemObj;
+			let itemObjSub;
+			
+			if(getData){
+
+				itemObj  = JSON.parse(getData);
+
+				itemObjSub = {};
+
+				itemObjSub['name'] = itemName;
+				itemObjSub['price'] = itemPrice;
+				itemObjSub['image'] = itemImage;
+				itemObjSub['quantity'] = 1;
+
+				itemObj[itemName.includes(' ') ? itemName.split(' ') : 'nothing more'] = itemObjSub;
+
+				const itemObjStrngfy = JSON.stringify(itemObj);
+				
+				sessionStorage.setItem('shoping-cart', itemObjStrngfy);
+
+			}
+			else{
+				itemObj = {};
+				itemObjSub = {};
+
+				itemObjSub['name'] = itemName;
+				itemObjSub['price'] = itemPrice;
+				itemObjSub['image'] = itemImage;
+				itemObjSub['quantity'] = 1;
+
+				itemObj[itemName.includes(' ') ? itemName.split(' ') : 'nothing more'] = itemObjSub;
+
+				const itemObjStrngfy = JSON.stringify(itemObj);
+				
+				sessionStorage.setItem('shoping-cart', itemObjStrngfy);
+
+			}
+
 		})
 	}
 
