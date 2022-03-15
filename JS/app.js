@@ -28,8 +28,7 @@ const makeUrlFrBtn = () => {
 }
 
 const fetchApi = url => {
-
-	fetch(url, {
+	fetch(url || 'https://amazon-data-scraper58.p.rapidapi.com/search/desktop', {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "amazon-data-scraper58.p.rapidapi.com",
@@ -172,3 +171,4 @@ const setStrg = data => {
 
 makeUrlFrSrch()
 makeUrlFrBtn()
+fetchApi()
