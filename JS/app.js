@@ -40,8 +40,11 @@ const fetchApi = url => {
 
 }
 
+let arr = [];
 
 const makeCardFunct = data => {
+
+	
 
 	const prntCard = document.getElementById('prnt-card');
 	prntCard.innerHTML = '';
@@ -50,8 +53,7 @@ const makeCardFunct = data => {
 
 	for(const elArr of dataRslts){
 
-		console.log(elArr)
-		const makeDivFrCard = document.createElement('div');
+		let makeDivFrCard = document.createElement('div');
 		makeDivFrCard.classList.add('card');
 		makeDivFrCard.setAttribute('style', 'width: 18rem;');
 	
@@ -81,14 +83,12 @@ const makeCardFunct = data => {
 					<p class="m-0 fw-bolder">$<span>${elArr.price}</span></p>
 				</div>
 				<div class="d-flex bg-dark text-white justify-content-between align-content-center py-1">
-					<div class="d-flex justify-content-center mx-1">
-						<p class="border fw-bold" style="color: black; width: 28px; height: 28px; background-color: white; margin: 0; text-align: center; cursor: pointer;"><i class="fa-solid fa-angle-left"></i></p>
-						<p class="text-center fw-bold fs-5" style="color: black; width: 28px; height: 28px; background-color: white; margin: 0;">1</p>
-						<p class="border fw-bold" style="color: black; width: 28px; height: 28px; background-color: white; margin: 0; text-align: center; cursor: pointer;"><i class="fa-solid fa-angle-right"></i></p>
+					<div>
+						<h6 id="buyNow-btn">Buy Now <i class="fa-solid fa-bag-shopping fs-4"></i></h6>
 					</div>
 					<div>
-						<i class="fa-solid fa-cart-arrow-down mx-2 fs-4 m-0 p-0" style="cursor: pointer;"></i>
-						<i class="fa-regular fa-heart mx-2 fs-4 m-0 p-0" style="cursor: pointer;"></i>
+						<i class="fa-solid fa-cart-arrow-down mx-2 fs-4 m-0 p-0 cartBtn" style="cursor: pointer;"></i>
+						<i class="fa-regular fa-heart mx-2 fs-4 m-0 p-0 heartBtn" style="cursor: pointer;"></i>
 					</div>
 				</div>
 			</div>
@@ -98,9 +98,9 @@ const makeCardFunct = data => {
 
 		prntCard.appendChild(makeDivFrCard);
 
-
+		
 	}
-
+	
 	
 
 }
